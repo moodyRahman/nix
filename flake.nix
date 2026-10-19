@@ -6,6 +6,9 @@
   };
 
   outputs = { self, nixpkgs }: {
+    packages.x86_64-linux.default =
+      self.nixosConfigurations.nixos.config.system.build.toplevel;
+
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [

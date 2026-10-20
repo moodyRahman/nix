@@ -16,6 +16,7 @@
         ({ pkgs, ... }: {
           environment.systemPackages = with pkgs; [ git gnupg ];
         })
+        { system.configurationRevision = self.rev or self.dirtyRev or "unknown"; }
       ];
     };
   };

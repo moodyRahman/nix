@@ -6,6 +6,7 @@
   };
 
   outputs = { self, nixpkgs }: {
+    nix.settings.trusted-users = [ "moody" ];
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
     packages.x86_64-linux.default = self.nixosConfigurations.nixos.config.system.build.toplevel;
 

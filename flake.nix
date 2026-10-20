@@ -7,6 +7,11 @@
 
   outputs = { self, nixpkgs }: {
     nix.settings.trusted-users = [ "moody" ];
+    nix.settings.trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "moody:BC6jelA0uKMl4YKwvbprhDslYTygdpj24MyM1olCTR8="
+    ];
+
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
     packages.x86_64-linux.default = self.nixosConfigurations.nixos.config.system.build.toplevel;
 

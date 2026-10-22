@@ -23,6 +23,7 @@
           environment.systemPackages = with pkgs; [
             git
             gnupg
+            vim
           ];
         })
         { system.configurationRevision = self.rev or self.dirtyRev or "unknown"; }

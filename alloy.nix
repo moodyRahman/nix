@@ -39,27 +39,20 @@ in
     };
   };
 
-  services.alloy.enable = true;
+  services.alloy = {
+    enable = true;
+    # Reachable only over tailscale0 (trusted interface); the firewall blocks it elsewhere.
+    extraFlags = [ "--server.http.listen-addr=0.0.0.0:12345" ];
+  };
 
-  # Only the textfile collector is enabled, so the exporter emits just the
-  # generation metric (no node_* noise).
+  # Alloy's embedded unix exporter is node_exporter: default collectors plus
+  # textfile (for the generation metric). Its metrics are served for pulling at
+  # http://<host>:12345/api/v0/component/prometheus.exporter.unix.node/metrics
   environment.etc."alloy/config.alloy".text = ''
-    prometheus.exporter.unix "generation" {
-      set_collectors = ["textfile"]
+    prometheus.exporter.unix "node" {
+      enable_collectors = ["textfile"]
       textfile {
         directory = "${textfileDir}"
-      }
-    }
-
-    prometheus.scrape "generation" {
-      targets    = prometheus.exporter.unix.generation.targets
-      forward_to = [prometheus.remote_write.default.receiver]
-    }
-
-    prometheus.remote_write "default" {
-      endpoint {
-        // TODO: point at your Prometheus/Mimir/Grafana Cloud endpoint
-        url = "http://localhost:9090/api/v1/write"
       }
     }
   '';

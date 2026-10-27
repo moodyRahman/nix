@@ -45,6 +45,7 @@ in
 {
   options.deployment.alloy.remoteWriteUrl = lib.mkOption {
     type = lib.types.str;
+    default = "http://127.0.0.1:9009/api/v1/push";
     description = "Mimir remote-write endpoint Alloy sends metrics to.";
   };
 

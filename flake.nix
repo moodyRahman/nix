@@ -19,11 +19,17 @@
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
+        ./alloy.nix
         ({ pkgs, ... }: {
           environment.systemPackages = with pkgs; [
             git
           ];
         })
+        {
+          services.tailscale.enable = true;
+          networking.firewall.trustedInterfaces = [ "tailscale0" ];
+          networking.firewall.allowedUDPPorts = [ 41641 ];
+        }
         { system.configurationRevision = self.rev or self.dirtyRev or "unknown"; }
       ];
     };
